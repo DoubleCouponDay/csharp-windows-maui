@@ -16,7 +16,7 @@
 
             <Label
                 Text="Dice Roll Game"
-                Style="{StaticResource SubHeadline}"
+                Style="{StaticResource Headline}"
                 SemanticProperties.Description="Dice Roll Game" />
 
             <HorizontalStackLayout 
@@ -75,29 +75,33 @@
              <Label 
                 Text="Results"
                 Style="{StaticResource SubHeadline}"
-                FontSize="15"
-                Margin="15"
+                FontSize="20"
+                Margin="5"
                 x:Name="resultsTitle" />
 
 			<CollectionView 
                 ItemsSource="{Binding resultsTable}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <CollectionView ItemsSource="{Binding . }">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <HorizontalStackLayout 
-                                        Spacing="5"
-                                        HorizontalOptions="Center">
+                        <HorizontalStackLayout 
+                            HorizontalOptions="Center">
+                            <CollectionView 
+                                ItemsSource="{Binding . }">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
                                         <Label 
                                             Text="{Binding Value}" 
                                             Style="{StaticResource SubHeadline}"
                                             BackgroundColor="{Binding BackgroundColour}"
-                                            FontSize="15" />
-                                    </HorizontalStackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                                            FontSize="15"
+                                            Margin="5,0,5,0" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" />
+                                </CollectionView.ItemsLayout>
+                            </CollectionView>
+                        </HorizontalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
