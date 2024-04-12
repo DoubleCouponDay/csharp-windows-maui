@@ -50,7 +50,7 @@ public partial class MainPage : ContentPage
 		using var httpClient = new HttpClient();
 		var url = $"{DICEROLL_API}?minimum={minimum}&maximum={maximum}&rerolls={rerolls}";
 		HttpResponseMessage response = httpClient.GetAsync(url).Result;
-		var result = response.Content.ReadFromJsonAsync<DiceResult>().Result ?? new DiceResult(new int[]{});
+		string? result = response.Content.ReadAsStringAsync().Result ?? "";
 		Console.WriteLine("Result:");
 		Console.WriteLine(result.ToString());
 	}
