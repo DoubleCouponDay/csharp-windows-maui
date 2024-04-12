@@ -9,7 +9,7 @@
             Spacing="25">
             <Image
                 Source="arc_logo.png"
-                HeightRequest="95"
+                HeightRequest="100"
                 WidthRequest="300"
                 Aspect="AspectFit"
                 SemanticProperties.Description="Arc logo" />
@@ -24,13 +24,58 @@
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.Description="Dice Roll Game" />
 
+            <HorizontalStackLayout 
+                Spacing="15"
+                HorizontalOptions="Center">
+                <Label 
+                    Text="Minimum Number"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.Description="minimum diceroll label"
+                    FontSize="15"
+                    Margin="15" />
+
+                <Entry 
+                    HeightRequest="15"
+                    WidthRequest="50"
+                    Margin="15"
+                    x:Name="minimumNumber" />
+
+                <Label 
+                    Text="Maximum Number"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.Description="maximum diceroll label"
+                    FontSize="15"
+                    Margin="15" />
+
+                <Entry 
+                    HeightRequest="15"
+                    WidthRequest="50"
+                    Margin="15"
+                    x:Name="maximumNumber" />
+
+                <Label 
+                    Text="Rerolls"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.Description="rerolls label"
+                    FontSize="15"
+                    Margin="15" />
+
+                <Entry 
+                    HeightRequest="15"
+                    WidthRequest="50"
+                    Margin="15"
+                    x:Name="rerolls" />
+            </HorizontalStackLayout>
+
             <Button
                 x:Name="dicerollButton"
                 Text="Roll Dice" 
                 SemanticProperties.Hint="Rolls the dice"
                 Clicked="OnRollClicked"
                 HorizontalOptions="Fill"
-                BackgroundColor="#F37621" />
+                BackgroundColor="#F37621"
+                WidthRequest="150"
+                Height="100" />
         </VerticalStackLayout>
     </ScrollView>
 
