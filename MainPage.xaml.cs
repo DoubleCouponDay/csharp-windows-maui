@@ -18,6 +18,8 @@ public partial class MainPage : ContentPage
 
 	public bool firstRoll {get; private set;} = true;
 
+	public ObservableCollection<ObservableCollection<DiceView>> resultsTable = new ObservableCollection<ObservableCollection<DiceView>>();
+
 	public MainPage()
 	{
 		InitializeComponent();
@@ -62,7 +64,7 @@ public partial class MainPage : ContentPage
 		DiceResult resultObject = JsonConvert.DeserializeObject<DiceResult>(result) ?? throw new Exception("returned value cannot be serialised as dataclass DiceResult");
 		int minimumIndex = 0;
 		int maximumIndex = 0;
-		var newRow = new ObservableCollection<TextCell>();
+		var newRow = new ObservableCollection<DiceView>();
 
 		for(var i = 0; i < resultObject.Dice.Length; i++) {
 			var current = resultObject.Dice[i];
@@ -75,9 +77,7 @@ public partial class MainPage : ContentPage
 				maximumIndex = current;
 			}
 
-			TextCell cell = new TextCell {
-				Text = resultObject.Dice[i].ToString(),
-			};
+			var cell = new DiceView(resultObject.Dice[i].ToString(), new Color(RGB_MAX, RGB_MAX, RGB_MAX));
 			newRow.Add(cell);
 		}
 		bool maximumHighlighted = false;
@@ -87,16 +87,16 @@ public partial class MainPage : ContentPage
 			var current = resultObject.Dice[i];
 
 			if(maximumHighlighted == false && current == maximum) {
-				newRow[i].DetailColor = Color.FromArgb(HIGHLIGHT_HEX);
+				newRow[i].BackgroundColour = Color.FromArgb(HIGHLIGHT_HEX);
 				maximumHighlighted = true;
 			}
 
 			else if(minimumHighlighted == false && current == maximum) {
-				newRow[i].DetailColor = Color.FromArgb(HIGHLIGHT_HEX);
+				newRow[i].BackgroundColour = Color.FromArgb(HIGHLIGHT_HEX);
 				minimumHighlighted = true;
 			}
 		}
-		resultsTable.Add(newRow);
+		resultsTable.add(newRow);
 	}
 }
 

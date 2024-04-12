@@ -72,18 +72,25 @@
                 WidthRequest="150"
                 Height="100" />
 
-            <TableView
-                IsVisible="{Binding firstRoll}"
-                Width="300"
-                Height="500"
-                Intent="Data">
-                <TableRoot 
-                    Title="Results">
-                    <TableSection
-                        x:Name="resultsTable">
-                    </TableSection>
-                </TableRoot>
-            </TableView>
+			<CollectionView ItemsSource="{Binding resultsTable}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <CollectionView ItemsSource="{Binding Items}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label 
+                                                Title="{Binding Value}" 
+                                                BackgroundColor="{Binding BackgroundColour}" />
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </VerticalStackLayout>
     </ScrollView>
