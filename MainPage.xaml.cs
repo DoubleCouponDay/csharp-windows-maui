@@ -96,7 +96,7 @@ public partial class MainPage : ContentPage
 				minimumHighlighted = true;
 			}
 		}
-		resultsTable.add(newRow);
+		resultsTable.Add(newRow);
 	}
 }
 
