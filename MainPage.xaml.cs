@@ -48,7 +48,7 @@ public partial class MainPage : ContentPage
 		}
 
 		using var httpClient = new HttpClient();
-		var url = $"{DICEROLL_API}?minimum={minimum}&maximum={maximum}&rerolls={rerolls}";
+		var url = $"{DICEROLL_API}?min={minimum}&max={maximum}&count={rerolls}";
 		HttpResponseMessage response = httpClient.GetAsync(url).Result;
 		string? result = response.Content.ReadAsStringAsync().Result ?? "";
 		Console.WriteLine("Result:");
