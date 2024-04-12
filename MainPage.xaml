@@ -81,7 +81,7 @@
                                     <DataTemplate>
                                         <StackLayout Orientation="Horizontal">
                                             <Label 
-                                                Title="{Binding Value}" 
+                                                Text="{Binding Value}" 
                                                 BackgroundColor="{Binding BackgroundColour}" />
                                         </StackLayout>
                                     </DataTemplate>
