@@ -396,4 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-*.png
+
+assets/ARC-logo-300x95.png
