@@ -8,7 +8,7 @@
     Title="csharp_windows_desktop_gui">
 
     <ShellContent
-        Title="Home"
+        Title=""
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
