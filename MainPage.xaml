@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="csharp_windows_desktop_gui.MainPage">
+
+    <ScrollView x:Name="resultsView">
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="arc_logo.png"
+                HeightRequest="100"
+                WidthRequest="300"
+                Aspect="AspectFit"
+                SemanticProperties.Description="Arc logo" />
+
+            <Label
+                Text="Dice Roll Game"
+                Style="{StaticResource Headline}"
+                SemanticProperties.Description="Dice Roll Game" />
+
+            <HorizontalStackLayout 
+                Spacing="15"
+                HorizontalOptions="Center">
+                <Label 
+                    Text="Minimum Number"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.Description="minimum diceroll label"
+                    FontSize="15"
+                    Margin="15" />
+
+                <Entry 
+                    HeightRequest="15"
+                    WidthRequest="50"
+                    Margin="15"
+                    x:Name="minimumEntry" />
+
+                <Label 
+                    Text="Maximum Number"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.Description="maximum diceroll label"
+                    FontSize="15"
+                    Margin="15" />
+
+                <Entry 
+                    HeightRequest="15"
+                    WidthRequest="50"
+                    Margin="15"
+                    x:Name="maximumEntry" />
+
+                <Label 
+                    Text="Rerolls"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.Description="rerolls label"
+                    FontSize="15"
+                    Margin="15" />
+
+                <Entry 
+                    HeightRequest="15"
+                    WidthRequest="50"
+                    Margin="15"
+                    x:Name="rerollsEntry" />
+            </HorizontalStackLayout>
+
+            <Button
+                x:Name="dicerollButton"
+                Text="Roll Dice" 
+                SemanticProperties.Hint="Rolls the dice"
+                Clicked="OnRollClicked"
+                HorizontalOptions="Fill"
+                BackgroundColor="#F37621"
+                WidthRequest="150"
+                Height="100" />
+
+             <Label 
+                Text="Results"
+                Style="{StaticResource SubHeadline}"
+                FontSize="20"
+                Margin="5"
+                x:Name="resultsTitle" />
+
+			<CollectionView 
+                ItemsSource="{Binding resultsTable}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout 
+                            HorizontalOptions="Center">
+                            <CollectionView 
+                                ItemsSource="{Binding . }">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label 
+                                            Text="{Binding Value}" 
+                                            Style="{StaticResource SubHeadline}"
+                                            BackgroundColor="{Binding BackgroundColour}"
+                                            FontSize="15"
+                                            Margin="5,0,5,0" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" />
+                                </CollectionView.ItemsLayout>
+                            </CollectionView>
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
