@@ -68,7 +68,7 @@
                 SemanticProperties.Hint="Rolls the dice"
                 Clicked="OnRollClicked"
                 HorizontalOptions="Fill"
-                BackgroundColor="#F37621"
+                BackgroundColor="#F05324"
                 WidthRequest="150"
                 Height="100" />
 
