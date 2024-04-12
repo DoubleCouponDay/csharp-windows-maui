@@ -87,7 +87,7 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <HorizontalStackLayout 
-                                        Spacing="15"
+                                        Spacing="5"
                                         HorizontalOptions="Center">
                                         <Label 
                                             Text="{Binding Value}" 

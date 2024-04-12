@@ -65,17 +65,22 @@ public partial class MainPage : ContentPage
 		Console.WriteLine(result.ToString());
 		int minimumIndex = 0;
 		int maximumIndex = 0;
+		int currentMin = int.MaxValue;
+		int currentMax = 0;
+
 		var newRow = new List<DiceView>(resultObject.Dice.Length);
 
 		for(var i = 0; i < resultObject.Dice.Length; i++) {
 			var current = resultObject.Dice[i];
 
-			if(current < minimumIndex) {
-				minimumIndex = current;
+			if(current <= currentMin) {
+				minimumIndex = i;
+				currentMin = current;
 			}
 
-			else if(current > maximumIndex) {
-				maximumIndex = current;
+			if(current >= currentMax) {
+				maximumIndex = i;
+				currentMax = current;
 			}
 
 			var cell = new DiceView(resultObject.Dice[i].ToString(), new Color(RGB_MAX, RGB_MAX, RGB_MAX));
@@ -83,16 +88,18 @@ public partial class MainPage : ContentPage
 		}
 		bool maximumHighlighted = false;
 		bool minimumHighlighted = false;
+		Console.WriteLine($"minimumIndex: {minimumIndex}");
+		Console.WriteLine($"maximumIndex: {maximumIndex}");
 
 		for(var i = 0; i < resultObject.Dice.Length; i++) {
 			var current = resultObject.Dice[i];
 
-			if(maximumHighlighted == false && current == maximum) {
+			if(maximumHighlighted == false && i == maximumIndex) {
 				newRow[i].BackgroundColour = Color.FromArgb(HIGHLIGHT_HEX);
 				maximumHighlighted = true;
 			}
 
-			else if(minimumHighlighted == false && current == minimum) {
+			else if(minimumHighlighted == false && i == minimumIndex) {
 				newRow[i].BackgroundColour = Color.FromArgb(HIGHLIGHT_HEX);
 				minimumHighlighted = true;
 			}
