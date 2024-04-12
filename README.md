@@ -1,6 +1,8 @@
 # csharp-windows-desktop-gui
 
-An example .NET GUI app for windows, using .NET 8 and the MAUI Framework.
+An example GUI app for windows, using .NET 8 and the MAUI Framework.
+
+Implements a Dice Roll Game.
 
 ## Setting up
 
