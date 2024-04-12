@@ -16,13 +16,13 @@ public partial class MainPage : ContentPage
 	const int RGB_MAX = 255;
 	const string HIGHLIGHT_HEX = "#F37621";
 
-	public bool firstRoll {get; private set;} = true;
-
-	public ObservableCollection<ObservableCollection<DiceView>> resultsTable = new ObservableCollection<ObservableCollection<DiceView>>();
+	public ObservableCollection<List<DiceView>> resultsTable {get; set;} =  new ObservableCollection<List<DiceView>>();
 
 	public MainPage()
 	{
 		InitializeComponent();
+		BindingContext = this;
+		resultsTitle.IsVisible = false;
 	}
 
 	private void OnRollClicked(object sender, EventArgs e)
@@ -59,12 +59,13 @@ public partial class MainPage : ContentPage
 		var url = $"{DICEROLL_API}?min={minimum}&max={maximum}&count={rerolls}";
 		HttpResponseMessage response = httpClient.GetAsync(url).Result;
 		string result = response.Content.ReadAsStringAsync().Result ?? throw new Exception($"null result from url: {url}");
-		Console.WriteLine("Result:");
-		firstRoll = false;
+		resultsTitle.IsVisible = true;
 		DiceResult resultObject = JsonConvert.DeserializeObject<DiceResult>(result) ?? throw new Exception("returned value cannot be serialised as dataclass DiceResult");
+		Console.Write("Result:");
+		Console.WriteLine(result.ToString());
 		int minimumIndex = 0;
 		int maximumIndex = 0;
-		var newRow = new ObservableCollection<DiceView>();
+		var newRow = new List<DiceView>(resultObject.Dice.Length);
 
 		for(var i = 0; i < resultObject.Dice.Length; i++) {
 			var current = resultObject.Dice[i];
@@ -91,7 +92,7 @@ public partial class MainPage : ContentPage
 				maximumHighlighted = true;
 			}
 
-			else if(minimumHighlighted == false && current == maximum) {
+			else if(minimumHighlighted == false && current == minimum) {
 				newRow[i].BackgroundColour = Color.FromArgb(HIGHLIGHT_HEX);
 				minimumHighlighted = true;
 			}

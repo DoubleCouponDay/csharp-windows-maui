@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="csharp_windows_desktop_gui.MainPage">
 
-    <ScrollView>
+    <ScrollView x:Name="resultsView">
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
@@ -72,22 +72,32 @@
                 WidthRequest="150"
                 Height="100" />
 
-			<CollectionView ItemsSource="{Binding resultsTable}">
+             <Label 
+                Text="Results"
+                Style="{StaticResource SubHeadline}"
+                FontSize="15"
+                Margin="15"
+                x:Name="resultsTitle" />
+
+			<CollectionView 
+                ItemsSource="{Binding resultsTable}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout>
-                            <CollectionView ItemsSource="{Binding Items}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label 
-                                                Text="{Binding Value}" 
-                                                BackgroundColor="{Binding BackgroundColour}" />
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </StackLayout>
+                        <CollectionView ItemsSource="{Binding . }">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout 
+                                        Spacing="15"
+                                        HorizontalOptions="Center">
+                                        <Label 
+                                            Text="{Binding Value}" 
+                                            Style="{StaticResource SubHeadline}"
+                                            BackgroundColor="{Binding BackgroundColour}"
+                                            FontSize="15" />
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
