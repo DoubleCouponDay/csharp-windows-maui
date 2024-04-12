@@ -15,11 +15,6 @@
                 SemanticProperties.Description="Arc logo" />
 
             <Label
-                Text="MAUI Template App for Windows and .NET 8"
-                Style="{StaticResource Headline}"
-                SemanticProperties.Description="MAUI Template App for Windows and .NET 8" />
-
-            <Label
                 Text="Dice Roll Game"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.Description="Dice Roll Game" />
@@ -76,6 +71,20 @@
                 BackgroundColor="#F37621"
                 WidthRequest="150"
                 Height="100" />
+
+            <TableView
+                IsVisible="{Binding firstRoll}"
+                Width="300"
+                Height="500"
+                Intent="Data">
+                <TableRoot 
+                    Title="Results">
+                    <TableSection
+                        x:Name="resultsTable">
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

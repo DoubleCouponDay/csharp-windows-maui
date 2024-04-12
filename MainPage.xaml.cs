@@ -2,8 +2,10 @@
 
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
-using WinRT;
+using Microsoft.Maui.Controls;
+using Newtonsoft.Json;
+using Microsoft.Maui.Graphics;
+using System.Collections.ObjectModel;
 
 public partial class MainPage : ContentPage
 {
@@ -11,6 +13,10 @@ public partial class MainPage : ContentPage
 	const int MAXIMUM = 6;
 	const int REROLLS = 1;
 	const string DICEROLL_API = "http://coreservice.xyz/arc/api.php";
+	const int RGB_MAX = 255;
+	const string HIGHLIGHT_HEX = "#F37621";
+
+	public bool firstRoll {get; private set;} = true;
 
 	public MainPage()
 	{
@@ -50,9 +56,47 @@ public partial class MainPage : ContentPage
 		using var httpClient = new HttpClient();
 		var url = $"{DICEROLL_API}?min={minimum}&max={maximum}&count={rerolls}";
 		HttpResponseMessage response = httpClient.GetAsync(url).Result;
-		string? result = response.Content.ReadAsStringAsync().Result ?? "";
+		string result = response.Content.ReadAsStringAsync().Result ?? throw new Exception($"null result from url: {url}");
 		Console.WriteLine("Result:");
-		Console.WriteLine(result.ToString());
+		firstRoll = false;
+		DiceResult resultObject = JsonConvert.DeserializeObject<DiceResult>(result) ?? throw new Exception("returned value cannot be serialised as dataclass DiceResult");
+		int minimumIndex = 0;
+		int maximumIndex = 0;
+		var newRow = new ObservableCollection<TextCell>();
+
+		for(var i = 0; i < resultObject.Dice.Length; i++) {
+			var current = resultObject.Dice[i];
+
+			if(current < minimumIndex) {
+				minimumIndex = current;
+			}
+
+			else if(current > maximumIndex) {
+				maximumIndex = current;
+			}
+
+			TextCell cell = new TextCell {
+				Text = resultObject.Dice[i].ToString(),
+			};
+			newRow.Add(cell);
+		}
+		bool maximumHighlighted = false;
+		bool minimumHighlighted = false;
+
+		for(var i = 0; i < resultObject.Dice.Length; i++) {
+			var current = resultObject.Dice[i];
+
+			if(maximumHighlighted == false && current == maximum) {
+				newRow[i].DetailColor = Color.FromArgb(HIGHLIGHT_HEX);
+				maximumHighlighted = true;
+			}
+
+			else if(minimumHighlighted == false && current == maximum) {
+				newRow[i].DetailColor = Color.FromArgb(HIGHLIGHT_HEX);
+				minimumHighlighted = true;
+			}
+		}
+		resultsTable.Add(newRow);
 	}
 }
 
