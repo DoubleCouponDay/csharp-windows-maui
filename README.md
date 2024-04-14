@@ -12,8 +12,6 @@ Implements a Dice Roll Game.
 
         dotnet workload install maui
 
-        dotnet new
-
         dotnet tool install -g redth.net.MAUI.check
 
         maui-check
