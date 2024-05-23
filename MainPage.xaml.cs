@@ -27,9 +27,9 @@ public partial class MainPage : ContentPage
 
 	private void OnRollClicked(object sender, EventArgs e)
 	{
-		var minimum = MINIMUM;
-		var maximum = MAXIMUM;
-		var rerolls = REROLLS;
+		int minimum = MINIMUM;
+		int maximum = MAXIMUM;
+		int rerolls = REROLLS;
 
 		try {
 			minimum = int.Parse(minimumEntry.Text);
@@ -63,15 +63,15 @@ public partial class MainPage : ContentPage
 		DiceResult resultObject = JsonConvert.DeserializeObject<DiceResult>(result) ?? throw new Exception("returned value cannot be serialised as dataclass DiceResult");
 		Console.Write("Result:");
 		Console.WriteLine(result.ToString());
-		int minimumIndex = 0;
-		int maximumIndex = 0;
-		int currentMin = int.MaxValue;
-		int currentMax = 0;
+		var minimumIndex = 0;
+		var maximumIndex = 0;
+		var currentMin = int.MaxValue;
+		var currentMax = 0;
 
 		var newRow = new List<DiceView>(resultObject.Dice.Length);
 
 		for(var i = 0; i < resultObject.Dice.Length; i++) {
-			var current = resultObject.Dice[i];
+			int current = resultObject.Dice[i];
 
 			if(current <= currentMin) {
 				minimumIndex = i;
@@ -83,7 +83,9 @@ public partial class MainPage : ContentPage
 				currentMax = current;
 			}
 
-			var cell = new DiceView(resultObject.Dice[i].ToString(), new Color(RGB_MAX, RGB_MAX, RGB_MAX));
+			var cell = new DiceView(resultObject.Dice[i].ToString(), 
+				new Color(RGB_MAX, RGB_MAX, RGB_MAX));
+
 			newRow.Add(cell);
 		}
 		bool maximumHighlighted = false;
@@ -92,7 +94,7 @@ public partial class MainPage : ContentPage
 		Console.WriteLine($"maximumIndex: {maximumIndex}");
 
 		for(var i = 0; i < resultObject.Dice.Length; i++) {
-			var current = resultObject.Dice[i];
+			int current = resultObject.Dice[i];
 
 			if(maximumHighlighted == false && i == maximumIndex) {
 				newRow[i].BackgroundColour = Color.FromArgb(HIGHLIGHT_HEX);
