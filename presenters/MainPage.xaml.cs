@@ -28,7 +28,11 @@ public partial class MainPage : ContentPage, IDisposable
 			return;
 		}
 
-		DiceResult result = RequestDicerolls(validatedInput);
+		DiceResult? result = RequestDicerolls(validatedInput);
+
+		if(result == null) {
+			return;
+		}
 		var newRow = new List<ColouredDice>(result.Dice.Length);
 		(int minimum, int maximum) = FindLimits(result, newRow);
 		newRow[minimum].BackgroundColour = Color.FromArgb(Colours.Highlight);
@@ -77,10 +81,25 @@ public partial class MainPage : ContentPage, IDisposable
 		return input;
 	}
 
-	private DiceResult RequestDicerolls(UserInput input) {
+	/// <summary>
+	/// Gets the dicerolls from the api. Returns null connection failed.
+	/// </summary>
+	/// <param name="input"></param>
+	/// <returns></returns>
+	/// <exception cref="Exception"></exception>
+	private DiceResult? RequestDicerolls(UserInput input) {
 
 		var url = $"{Endpoints.Diceroller}?min={input.Minimum}&max={input.Maximum}&count={input.Rerolls}";
-		HttpResponseMessage response = http.GetAsync(url).Result;
+		HttpResponseMessage response;
+		
+		try {
+			response = http.GetAsync(url).Result;
+		}
+
+		catch {
+			
+			return null;
+		}
 		string stringResult = response.Content.ReadAsStringAsync().Result ?? throw new Exception($"null result from url: {url}");
 		DiceResult result = JsonConvert.DeserializeObject<DiceResult>(stringResult) ?? throw new Exception("returned value cannot be serialised as dataclass DiceResult");
 		Console.Write("Result:");
