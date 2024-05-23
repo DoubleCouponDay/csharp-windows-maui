@@ -8,7 +8,7 @@
             Padding="30,0"
             Spacing="25">
             <Image
-                Source="arc_logo.png"
+                Source="logo.png"
                 HeightRequest="100"
                 WidthRequest="300"
                 Aspect="AspectFit"
