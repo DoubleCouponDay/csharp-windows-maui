@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="csharp_windows_desktop_maui.MainPage">
+             x:Class="csharp_windows_desktop_maui.MainPage"
+             BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource DarkModeBack}}">
 
     <ScrollView x:Name="resultsView">
         <VerticalStackLayout
@@ -17,7 +18,8 @@
             <Label
                 Text="Dice Roll Game"
                 Style="{StaticResource Headline}"
-                SemanticProperties.Description="Dice Roll Game" />
+                SemanticProperties.Description="Dice Roll Game"
+                TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
 
             <HorizontalStackLayout 
                 Spacing="15"
@@ -27,39 +29,45 @@
                     Style="{StaticResource SubHeadline}"
                     SemanticProperties.Description="minimum diceroll label"
                     FontSize="15"
-                    Margin="15" />
+                    Margin="15"
+                    TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
 
                 <Entry 
                     HeightRequest="15"
                     WidthRequest="50"
                     Margin="15"
-                    x:Name="minimumEntry" />
+                    x:Name="minimumEntry"
+                    TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
 
                 <Label 
                     Text="Maximum Number"
                     Style="{StaticResource SubHeadline}"
                     SemanticProperties.Description="maximum diceroll label"
                     FontSize="15"
-                    Margin="15" />
+                    Margin="15"
+                    TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
 
                 <Entry 
                     HeightRequest="15"
                     WidthRequest="50"
                     Margin="15"
-                    x:Name="maximumEntry" />
+                    x:Name="maximumEntry"
+                    TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
 
                 <Label 
                     Text="Rerolls"
                     Style="{StaticResource SubHeadline}"
                     SemanticProperties.Description="rerolls label"
                     FontSize="15"
-                    Margin="15" />
+                    Margin="15"
+                    TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
 
                 <Entry 
                     HeightRequest="15"
                     WidthRequest="50"
                     Margin="15"
-                    x:Name="rerollsEntry" />
+                    x:Name="rerollsEntry"
+                    TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
             </HorizontalStackLayout>
 
             <Button
@@ -70,7 +78,8 @@
                 HorizontalOptions="Fill"
                 BackgroundColor="#F05324"
                 WidthRequest="150"
-                Height="100" />
+                Height="100"
+                TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
 
              <Label 
                 Text="Results"
@@ -94,7 +103,8 @@
                                             Style="{StaticResource SubHeadline}"
                                             BackgroundColor="{Binding BackgroundColour}"
                                             FontSize="15"
-                                            Margin="5,0,5,0" />
+                                            Margin="5,0,5,0"
+                                            TextColor="{AppThemeBinding Light={StaticResource DarkModeBack}, Dark=White}" />
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                                 <CollectionView.ItemsLayout>
