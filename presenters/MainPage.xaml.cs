@@ -27,7 +27,6 @@ public partial class MainPage : ContentPage, IDisposable
 		if (validatedInput == null) {
 			return;
 		}
-
 		DiceResult? result = RequestDicerolls(validatedInput);
 
 		if(result == null) {
@@ -57,7 +56,8 @@ public partial class MainPage : ContentPage, IDisposable
 		}
 
 		catch {
-			Console.WriteLine(Errors.InvalidMinimum);
+			Console.WriteLine(Error.InvalidMinimum);
+			DisplayAlert(nameof(Error), Error.InvalidMinimum, UI.Okay);
 			return null;
 		}
 
@@ -66,7 +66,8 @@ public partial class MainPage : ContentPage, IDisposable
 		}
 
 		catch {
-			Console.WriteLine(Errors.InvalidMaximum);
+			Console.WriteLine(Error.InvalidMaximum);
+			DisplayAlert(nameof(Error), Error.InvalidMaximum, UI.Okay);
 			return null;
 		}
 
@@ -75,7 +76,8 @@ public partial class MainPage : ContentPage, IDisposable
 		}
 
 		catch {
-			Console.WriteLine(Errors.InvalidRerolls);
+			Console.WriteLine(Error.InvalidRerolls);
+			DisplayAlert(nameof(Error), Error.InvalidRerolls, UI.Okay);
 			return null;
 		}
 		return input;
@@ -97,7 +99,8 @@ public partial class MainPage : ContentPage, IDisposable
 		}
 
 		catch {
-			
+			Console.WriteLine(Error.ConnectionFailed);
+			DisplayAlert(nameof(Error), Error.ConnectionFailed, UI.Okay);
 			return null;
 		}
 		string stringResult = response.Content.ReadAsStringAsync().Result ?? throw new Exception($"null result from url: {url}");
