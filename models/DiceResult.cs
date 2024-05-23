@@ -1,4 +1,4 @@
-namespace csharp_windows_desktop_gui;
+namespace csharp_windows_desktop_maui;
 
 using System.Text;
 
