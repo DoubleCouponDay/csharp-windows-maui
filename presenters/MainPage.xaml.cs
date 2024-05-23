@@ -1,6 +1,5 @@
 ﻿namespace csharp_windows_desktop_maui;
 
-using System.Net;
 using System.Net.Http;
 using Microsoft.Maui.Controls;
 using Newtonsoft.Json;
