@@ -16,7 +16,7 @@ public partial class MainPage : ContentPage
 	const int RGB_MAX = 255;
 	const string HIGHLIGHT_HEX = "#F37621";
 
-	public ObservableCollection<List<DiceView>> resultsTable {get; set;} =  new ObservableCollection<List<DiceView>>();
+	public ObservableCollection<List<ColouredDice>> resultsTable {get; set;} =  new ObservableCollection<List<ColouredDice>>();
 
 	public MainPage()
 	{
@@ -68,7 +68,7 @@ public partial class MainPage : ContentPage
 		var currentMin = int.MaxValue;
 		var currentMax = 0;
 
-		var newRow = new List<DiceView>(resultObject.Dice.Length);
+		var newRow = new List<ColouredDice>(resultObject.Dice.Length);
 
 		for(var i = 0; i < resultObject.Dice.Length; i++) {
 			int current = resultObject.Dice[i];
@@ -83,7 +83,7 @@ public partial class MainPage : ContentPage
 				currentMax = current;
 			}
 
-			var cell = new DiceView(resultObject.Dice[i].ToString(), 
+			var cell = new ColouredDice(resultObject.Dice[i].ToString(), 
 				new Color(RGB_MAX, RGB_MAX, RGB_MAX));
 
 			newRow.Add(cell);
