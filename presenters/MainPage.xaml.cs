@@ -7,71 +7,102 @@ using Newtonsoft.Json;
 using Microsoft.Maui.Graphics;
 using System.Collections.ObjectModel;
 
-public partial class MainPage : ContentPage
+public partial class MainPage : ContentPage, IDisposable
 {
-	const int MINIMUM = 1;
-	const int MAXIMUM = 6;
-	const int REROLLS = 1;
-	const string DICEROLL_API = "http://coreservice.xyz/arc/api.php";
-	const int RGB_MAX = 255;
-	const string HIGHLIGHT_HEX = "#F37621";
+	private HttpClient http = new HttpClient();
 
-	public ObservableCollection<List<ColouredDice>> resultsTable {get; set;} =  new ObservableCollection<List<ColouredDice>>();
+	public ObservableCollection<List<ColouredDice>> resultsTable { get; set; }
 
 	public MainPage()
 	{
 		InitializeComponent();
+		resultsTable = new ObservableCollection<List<ColouredDice>>();
 		BindingContext = this;
 		resultsTitle.IsVisible = false;
 	}
 
 	private void OnRollClicked(object sender, EventArgs e)
 	{
-		int minimum = MINIMUM;
-		int maximum = MAXIMUM;
-		int rerolls = REROLLS;
+		UserInput? validatedInput = ValidateInput();
 
-		try {
-			minimum = int.Parse(minimumEntry.Text);
+		if (validatedInput == null) {
+			return;
 		}
 
-		catch {
-			Console.WriteLine("failed to parse minimum");
-		}
-
-		try {
-			maximum = int.Parse(maximumEntry.Text);
-		}
-
-		catch {
-			Console.WriteLine("failed to parse maximum");
-		}
-
-		try {
-			rerolls = int.Parse(rerollsEntry.Text);
-		}
-
-		catch {
-			Console.WriteLine("failed to parse rerolls");
-		}
-
-		using var httpClient = new HttpClient();
-		var url = $"{DICEROLL_API}?min={minimum}&max={maximum}&count={rerolls}";
-		HttpResponseMessage response = httpClient.GetAsync(url).Result;
-		string result = response.Content.ReadAsStringAsync().Result ?? throw new Exception($"null result from url: {url}");
+		DiceResult result = RequestDicerolls(validatedInput);
+		var newRow = new List<ColouredDice>(result.Dice.Length);
+		(int minimum, int maximum) = FindLimits(result, newRow);
+		newRow[minimum].BackgroundColour = Color.FromArgb(Colours.Highlight);
+		newRow[maximum].BackgroundColour = Color.FromArgb(Colours.Highlight);
+		resultsTable.Add(newRow);
 		resultsTitle.IsVisible = true;
-		DiceResult resultObject = JsonConvert.DeserializeObject<DiceResult>(result) ?? throw new Exception("returned value cannot be serialised as dataclass DiceResult");
+	}
+
+	/// <summary>
+	/// Returns the validated user input. Null if not valid.
+	/// </summary>
+	/// <returns></returns>
+	private UserInput? ValidateInput() {
+		var input = new UserInput {
+			Minimum = Defaults.MINIMUM,
+			Maximum = Defaults.MAXIMUM,
+			Rerolls = Defaults.REROLLS
+		};
+
+		try {
+			input.Minimum = int.Parse(minimumEntry.Text);
+		}
+
+		catch {
+			Console.WriteLine(Errors.InvalidMinimum);
+			return null;
+		}
+
+		try {
+			input.Maximum = int.Parse(maximumEntry.Text);
+		}
+
+		catch {
+			Console.WriteLine(Errors.InvalidMaximum);
+			return null;
+		}
+
+		try {
+			input.Rerolls = int.Parse(rerollsEntry.Text);
+		}
+
+		catch {
+			Console.WriteLine(Errors.InvalidRerolls);
+			return null;
+		}
+		return input;
+	}
+
+	private DiceResult RequestDicerolls(UserInput input) {
+
+		var url = $"{Endpoints.Diceroller}?min={input.Minimum}&max={input.Maximum}&count={input.Rerolls}";
+		HttpResponseMessage response = http.GetAsync(url).Result;
+		string stringResult = response.Content.ReadAsStringAsync().Result ?? throw new Exception($"null result from url: {url}");
+		DiceResult result = JsonConvert.DeserializeObject<DiceResult>(stringResult) ?? throw new Exception("returned value cannot be serialised as dataclass DiceResult");
 		Console.Write("Result:");
-		Console.WriteLine(result.ToString());
+		Console.WriteLine(stringResult.ToString());
+		return result;
+	}
+
+	/// <summary>
+	/// Returns the index for the minimum and maximum values in the DiceResult
+	/// </summary>
+	/// <param name="result"></param>
+	/// <param name="newRow"></param>
+	/// <returns></returns>
+	private (int minimum, int maximum) FindLimits(DiceResult result, List<ColouredDice> newRow) {
 		var minimumIndex = 0;
 		var maximumIndex = 0;
 		var currentMin = int.MaxValue;
 		var currentMax = 0;
 
-		var newRow = new List<ColouredDice>(resultObject.Dice.Length);
-
-		for(var i = 0; i < resultObject.Dice.Length; i++) {
-			int current = resultObject.Dice[i];
+		for(var i = 0; i < result.Dice.Length; i++) {
+			int current = result.Dice[i];
 
 			if(current <= currentMin) {
 				minimumIndex = i;
@@ -83,30 +114,16 @@ public partial class MainPage : ContentPage
 				currentMax = current;
 			}
 
-			var cell = new ColouredDice(resultObject.Dice[i].ToString(), 
-				new Color(RGB_MAX, RGB_MAX, RGB_MAX));
+			var valueString = result.Dice[i].ToString();
+			var white = new Color(Defaults.RGB_MAX, Defaults.RGB_MAX, Defaults.RGB_MAX);
+			var cell = new ColouredDice(valueString, white); //white
 
 			newRow.Add(cell);
 		}
-		bool maximumHighlighted = false;
-		bool minimumHighlighted = false;
-		Console.WriteLine($"minimumIndex: {minimumIndex}");
-		Console.WriteLine($"maximumIndex: {maximumIndex}");
-
-		for(var i = 0; i < resultObject.Dice.Length; i++) {
-			int current = resultObject.Dice[i];
-
-			if(maximumHighlighted == false && i == maximumIndex) {
-				newRow[i].BackgroundColour = Color.FromArgb(HIGHLIGHT_HEX);
-				maximumHighlighted = true;
-			}
-
-			else if(minimumHighlighted == false && i == minimumIndex) {
-				newRow[i].BackgroundColour = Color.FromArgb(HIGHLIGHT_HEX);
-				minimumHighlighted = true;
-			}
-		}
-		resultsTable.Add(newRow);
+		return (minimumIndex, maximumIndex);
 	}
-}
 
+    public void Dispose() {
+        http.Dispose();
+    }
+}
