@@ -16,7 +16,9 @@ Implements a Dice Roll Game.
 
         maui-check
 
-- Install the .NET MAUI vscode extension
+- Install the .NET MAUI vscode extension.
+
+- Place an image at the following path: 
 
 ## Debugging
 
