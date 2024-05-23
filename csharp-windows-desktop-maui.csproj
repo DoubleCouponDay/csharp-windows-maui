@@ -18,9 +18,12 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<WindowsPackageType>None</WindowsPackageType>
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 
 		<!-- Display name -->
-		<ApplicationTitle>csharp-windows-desktop-gui</ApplicationTitle>
+		<ApplicationTitle>csharp-windows-desktop-maui</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.csharpwindowsdesktopgui</ApplicationId>

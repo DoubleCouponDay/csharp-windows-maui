@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "dotnet build",
             "args": [
-                "${workspaceFolder}/csharp-windows-desktop-gui.csproj",
+                "${workspaceFolder}/csharp-windows-desktop-maui.csproj",
                 "/p:Configuration=Debug"
             ],
             "group": {
