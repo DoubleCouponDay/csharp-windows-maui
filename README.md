@@ -1,4 +1,4 @@
-# csharp-windows-desktop-gui
+# csharp-windows-desktop-maui
 
 An example GUI app for windows, using .NET 8 and the MAUI Framework.
 
@@ -22,12 +22,13 @@ Implements a Dice Roll Game.
 
 ## Debugging
 
-Press F5 to run the default launch task.
+Press `F5` to run the default launch task. You can also run the program from the console using the following command:
+
+        dotnet run -t:Run -f net8.0-windows10.0.19041.0
 
 ## Building
 
-Press F6 in VSCode to run the default build task.
-
+Press `F6` in VSCode to run the default build task.
 
 ## Resources
 
